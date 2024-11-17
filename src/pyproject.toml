@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "12-fastapi-celery-second"
+version = "0.1.0"
+description = ""
+authors = ["Camiloez <camilo.escobar.z@ug.uchile.cl>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+redis = "^5.2.0"
+fastapi = "^0.115.5"
+celery = "^5.4.0"
+uvicorn = "^0.32.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

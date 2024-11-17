@@ -1,0 +1,28 @@
+
+services:
+  backend:
+    build: ./src
+    command: ["poetry", "run", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+    volumes:
+      - ./src:/usr/src/app
+    ports:
+      - 8000:8000 
+    environment:
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+    depends_on:
+      - redis
+
+  redis:
+    image: redis:7.0.11-alpine
+    container_name: redis
+
+  worker:
+    container_name: worker-fastapi
+    build: ./src
+    command: poetry run celery -A task worker -l INFO --concurrency 4
+    volumes:
+      - ./src:/usr/src/app
+    depends_on:
+      - redis
+      - backend
